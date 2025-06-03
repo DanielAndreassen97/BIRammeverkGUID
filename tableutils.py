@@ -163,8 +163,8 @@ def create_config_table(data_file, page_title):
         if st.button("Import"):
             if pasted_data.strip():
                 try:
-                    # Clean up pasted data: Replace multiple spaces with tabs
-                    cleaned_data = "\n".join(["\t".join(row.split()) for row in pasted_data.splitlines()])
+                    # Excel data is tab-separated, so split rows on tabs to keep cell spaces
+                    cleaned_data = "\n".join(["\t".join(row.split("\t")) for row in pasted_data.splitlines()])
 
                     if df.empty:
                         # For empty tables, treat first row as headers
