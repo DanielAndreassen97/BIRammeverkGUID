@@ -30,8 +30,7 @@ def create_config_table(data_file, page_title):
     rows, renaming, and deleting columns/rows.
 
     Args:
-        data_file (str): Path to the JSON file to save/load data.
-        table_name (str): Name of the table to display.
+        data_file (str): Path to the JSON file used to save or load the table.
         page_title (str): Title for the Streamlit page.
     """
     # Page Title
@@ -181,6 +180,10 @@ def create_config_table(data_file, page_title):
         if st.button("Import"):
             if pasted_data.strip():
                 try:
+                    # Excel data is tab-separated, so split rows on tabs to keep cell spaces
+                    cleaned_data = "\n".join(["\t".join(row.split("\t")) for row in pasted_data.splitlines()])
+
+
                     if df.empty:
                         # For empty tables, treat first row as headers
                         new_df = pasted_text_to_df(pasted_data, header=0)
