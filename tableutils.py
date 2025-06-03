@@ -24,19 +24,23 @@ def pasted_text_to_df(text: str, header=0) -> pd.DataFrame:
     return pd.read_csv(io.StringIO(cleaned), sep="\t", header=header)
 
 
-def create_config_table(data_file, page_title):
+def create_config_table(data_file, page_title, customer=None):
     """
     Creates or manages a configuration table with actions like adding columns,
     rows, renaming, and deleting columns/rows.
 
     Args:
-        data_file (str): Path to the JSON file used to save or load the table.
+        data_file (str): Filename used to save or load the table.
         page_title (str): Title for the Streamlit page.
+        customer (str | None): Optional customer identifier to namespace the
+            saved table files.
     """
     # Page Title
     st.title(page_title)
 
     folder_path = "pages_data"
+    if customer:
+        folder_path = os.path.join(folder_path, customer)
     os.makedirs(folder_path, exist_ok=True)  # Ensure the folder exists
 
     full_file_path = os.path.join(folder_path, data_file)
