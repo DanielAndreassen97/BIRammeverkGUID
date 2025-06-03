@@ -24,6 +24,6 @@ if st.button("Login"):
         customers = get_customers(username)
         if customers:
             st.session_state["selected_customer"] = customers[0]
-        st.switch_page("")  # Go to default page
+        st.switch_page("about")  # Go to default page
     else:
         st.error("Invalid username or password")
