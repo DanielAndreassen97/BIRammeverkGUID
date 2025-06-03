@@ -18,11 +18,11 @@ Start the Streamlit app from the repository root with:
 streamlit run main.py
 ```
 
-Streamlit configuration files are kept in the `.streamlit/` folder. Data created through the UI is stored as JSON files inside `pages_data/`.
+Streamlit configuration files are kept in the `.streamlit/` folder. Data created through the UI is stored as JSON files inside `pages_data/`. Customer specific data resides in subfolders named after each customer.
 
 ## Authentication
 
-The app now displays a simple login screen before showing the configuration pages.
+The app now displays a simple login screen at `/login` before showing the configuration pages.
 Credentials are stored in a `users.json` file at the repository root. The repository ships with a test account:
 
 ```
