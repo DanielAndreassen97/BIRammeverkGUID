@@ -4,6 +4,26 @@ import json
 import pandas as pd
 import streamlit as st
 import io
+
+
+def pasted_text_to_df(text: str, header=0) -> pd.DataFrame:
+    """Convert pasted tab-separated text to a DataFrame.
+
+    Only tab characters are treated as delimiters so spaces within
+    cells are preserved.
+
+    Parameters
+    ----------
+    text: str
+        Text copied from Excel (tab separated).
+    header: int | None
+        Row number to use as column names. Use ``None`` when the
+        pasted text does not include headers.
+    """
+    cleaned = text.strip()
+    return pd.read_csv(io.StringIO(cleaned), sep="\t", header=header)
+
+
 def create_config_table(data_file, page_title):
     """
     Creates or manages a configuration table with actions like adding columns,
@@ -149,8 +169,6 @@ def create_config_table(data_file, page_title):
             st.rerun()
 
 
-    import io
-
     # Import Data From Excel
     if action == "Import Data From Excel":
         st.write("### Import Data From Excel")
@@ -165,16 +183,17 @@ def create_config_table(data_file, page_title):
                     # Excel data is tab-separated, so split rows on tabs to keep cell spaces
                     cleaned_data = "\n".join(["\t".join(row.split("\t")) for row in pasted_data.splitlines()])
 
+
                     if df.empty:
                         # For empty tables, treat first row as headers
-                        new_df = pd.read_csv(io.StringIO(cleaned_data), sep="\t", header=0)
+                        new_df = pasted_text_to_df(pasted_data, header=0)
                         df = new_df  # Assign directly
                         save_to_json(df)
                         st.session_state["success_message"] = "Data imported successfully! First row used as column headers."
                         st.rerun()
                     else:
                         # For non-empty tables, read data without headers
-                        new_df = pd.read_csv(io.StringIO(cleaned_data), sep="\t", header=None)
+                        new_df = pasted_text_to_df(pasted_data, header=None)
 
                         # Validate schema: Match number of columns
                         if new_df.shape[1] == len(df.columns):
