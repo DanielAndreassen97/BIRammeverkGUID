@@ -36,7 +36,7 @@ pg = st.navigation([
 # ---- PAGE SETUP ----
 
 if "authenticated" not in st.session_state or not st.session_state["authenticated"]:
-    if pg.page != login_page:
+    if pg.url_path != login_page.url_path:
         st.switch_page("login")
     else:
         pg.run()
