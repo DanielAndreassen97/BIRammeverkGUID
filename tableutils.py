@@ -10,8 +10,7 @@ def create_config_table(data_file, page_title):
     rows, renaming, and deleting columns/rows.
 
     Args:
-        data_file (str): Path to the JSON file to save/load data.
-        table_name (str): Name of the table to display.
+        data_file (str): Path to the JSON file used to save or load the table.
         page_title (str): Title for the Streamlit page.
     """
     # Page Title
